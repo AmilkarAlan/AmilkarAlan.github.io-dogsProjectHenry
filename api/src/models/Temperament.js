@@ -5,8 +5,8 @@ module.exports = (sequalize) => {
     sequalize.define('temperament', {
         id: {
             type: DataTypes.UUID,
-            allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            defaultValue: DataTypes.UUIDV1
         },
         name:{
             type: DataTypes.STRING,
