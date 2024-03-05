@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const {getAllDogs, getOneBreed} = require("../controllers/dogsControllers");
+const {getAllDogs, getOneBreed, postNewDog} = require("../controllers/dogsControllers");
 const { getTemperaments } = require('../controllers/tempsControllers');
 
 const router = Router();
@@ -9,7 +9,7 @@ router
     .get("/search/", getOneBreed)
     .get("/search/:id", getOneBreed)
     .get("/temperaments", getTemperaments)
-    // .post("/breed",)
+    .post("/",postNewDog)
 
 
 module.exports = router;

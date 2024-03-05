@@ -35,12 +35,14 @@ const { Dog, Temperament } = sequelize.models;
 Dog.belongsToMany(Temperament, {
   through: "dog-temperament",
   foreignKey: "dogId",
-  otherKey: "temperamentId"
+  otherKey: "temperamentId",
+  timestamps: false
 })
 Temperament.belongsToMany(Dog, {
   through: "dog-temperament",
   foreignKey: "temperamentId",
-  otherKey: "dogId"
+  otherKey: "dogId",
+  timestamps: false
 })
 
 module.exports = {

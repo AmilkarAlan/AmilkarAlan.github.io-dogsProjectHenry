@@ -1,6 +1,22 @@
 const axios = require("axios");
 const { Temperament } = require("../db")
 
+const transformTemperament = (data) => {
+    const transform = (dog) => {
+        if (dog.temperament) {
+            let tempArray = dog.temperament.split(',').map(temp => ({name: temp.trim()}));
+            return {...dog, temperament: tempArray};
+        } else {
+            return dog;
+        }
+    };
+
+    if (Array.isArray(data)) {
+        return data.map(transform);
+    } else {
+        return transform(data);
+    }
+}
 const extractTemperaments = async () => {
     try {
         const temperament = await Temperament.findAll();
@@ -18,7 +34,7 @@ const extractTemperaments = async () => {
                 .sort();
             for (let tempName of temperamentsArr) {
 
-                const dbTemp = await Temperament.create({
+                await Temperament.create({
                     name: tempName
                 })
             }
@@ -40,5 +56,6 @@ const getTemperament = async () => {
     }
 }
 module.exports = {
-    getTemperament
+    getTemperament,
+    transformTemperament
 }
