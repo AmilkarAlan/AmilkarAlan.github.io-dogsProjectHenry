@@ -1,33 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { getDogs } from './redux/action';
+import { useEffect } from 'react';
+import CardsWrapper from './components/CardsWrapper/CardsWrapper';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dogsApi = useSelector(state => state.dogsApi);
+  const dogsDb = useSelector(state => state.dogsDb);
+  const loading = useSelector(state => state.loading);
+  const error = useSelector(state => state.error);
+  const dispatch = useDispatch();
+
+  const dogs = dogsApi.concat(dogsDb);
+
+  useEffect(() => {
+    dispatch(getDogs())
+  }, [ dispatch ]);
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <CardsWrapper dogs={ dogs } />
     </>
   )
 }
