@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import style from './CardsWrapper.module.css'
 import Pagination from '../Pagination/Pagination';
+import Card from '../Card/Card';
 
 const ITEMS_PER_PAGE = 10
 const CardsWrapper = ({ dogs }) => {
@@ -16,7 +17,7 @@ const CardsWrapper = ({ dogs }) => {
     <div className={ style.cards_wrapper }>
       <div className={ style.cards_grid }>
         { selectedItems.map((dog) => (
-          <div>{ dog.name }</div>
+          <Card dog={dog} />
         )) }
       </div>
       <Pagination handlePageChange={ handlePageChange } itemsPerPage={ ITEMS_PER_PAGE } currentPage={ currentPage } dogs={ dogs } />

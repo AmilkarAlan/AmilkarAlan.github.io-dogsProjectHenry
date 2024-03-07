@@ -10,7 +10,7 @@ const dogStructure = (dog) => ({
     id: dog.id,
     name: dog.name,
     life_span: dog.life_span,
-    reference_image_id: `hhttps://cdn2.thedogapi.com/images/${dog.reference_image_id}.jpg`,
+    image_url: `https://cdn2.thedogapi.com/images/${dog.reference_image_id}.jpg`,
     temperament: dog.temperament ?? dog.temperament
 })
 const getAllBreeds = async () => {
@@ -71,7 +71,7 @@ const postDog = async (dog) => {
                 height: dog.height,
                 name: dog.name,
                 life_span: dog.life_span,
-                reference_image_id: `hhttps://cdn2.thedogapi.com/images/${dog.reference_image_id}.jpg`,
+                image_url: `hhttps://cdn2.thedogapi.com/images/${dog.reference_image_id}.jpg`,
                 id: "MyD" + "-" + (dogsInDb.length + 1) 
             },
             include: [ {

@@ -12,6 +12,7 @@ function App() {
   const dispatch = useDispatch();
 
   const dogs = dogsApi.concat(dogsDb);
+  console.log(dogs);
 
   useEffect(() => {
     dispatch(getDogs())
