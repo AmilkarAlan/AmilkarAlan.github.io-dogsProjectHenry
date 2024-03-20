@@ -1,0 +1,23 @@
+.home_grid {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+.home_header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    position: relative;
+    grid-area: header;
+}
+
+.home_header a{
+    color: black;
+}
+.home_header a:hover{
+    color: #f89b29;
+}

@@ -1,0 +1,29 @@
+.results_container{
+    display: flex;
+    position: absolute;
+    top: 60px;
+    z-index: 1;
+    width: 400px;
+    height: auto;
+    background-color: beige;
+    border-radius: 12px;
+    color: black;
+}
+
+.results_links {
+    display: flex;
+    align-items: center;
+}
+
+.results_links img {
+height: 45px;
+width: 45px;
+border-radius: 50%;
+}
+
+.results_search {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+}

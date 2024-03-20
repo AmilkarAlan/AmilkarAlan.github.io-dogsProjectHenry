@@ -1,0 +1,9 @@
+.filter_wrapped{
+    display: flex;
+    gap: 8px;
+}
+
+.filterContainer{
+    display: flex;
+    gap: 8px;
+}

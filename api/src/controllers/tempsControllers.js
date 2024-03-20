@@ -1,5 +1,5 @@
 const { Temperament } = require("../db");
-const { getTemperament } = require("../services/temperamentsServices");
+const { getTemperament, postTemp } = require("../services/temperamentsServices");
 
 const getTemperaments = async (req, res) => {
     try {
@@ -13,6 +13,16 @@ const getTemperaments = async (req, res) => {
     }
 }
 
+const postNewTemp = async (req, res) => {
+    const temp = req.body
+    try {
+        const newTemp = await postTemp(temp);
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+}
+
 module.exports = {
-    getTemperaments
+    getTemperaments,
+    postNewTemp
 }

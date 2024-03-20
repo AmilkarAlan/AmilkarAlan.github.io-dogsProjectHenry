@@ -3,9 +3,9 @@ const { Temperament } = require("../db")
 
 const transformTemperament = (data) => {
     const transform = (dog) => {
-        if (dog.temperament) {
-            let tempArray = dog.temperament.split(',').map(temp => ({name: temp.trim()}));
-            return {...dog, temperament: tempArray};
+        if (dog.temperaments) {
+            let tempArray = dog.temperaments.split(',').map(temp => ({ name: temp.trim() }));
+            return { ...dog, temperaments: tempArray };
         } else {
             return dog;
         }
@@ -48,14 +48,26 @@ const extractTemperaments = async () => {
 }
 const getTemperament = async () => {
     try {
-        const temperaments = await extractTemperaments();
-        const tempArr = temperaments.map(temp => temp.dataValues)
+        const temperament = await extractTemperaments();
+        const tempArr = temperament.map(temp => temp.dataValues)
         return tempArr
     } catch (error) {
         throw error.message
     }
 }
+
+const postTemp = async (temp) => {
+    try {
+        const [ temp, created ] = await Temperament.findOrCreate({ where: { name: temp.name } })
+        if (created) return "Temperament created"
+        return "Temperament in db"
+    } catch (error) {
+        throw error.message
+    }
+}
+
 module.exports = {
     getTemperament,
-    transformTemperament
+    transformTemperament,
+    postTemp
 }

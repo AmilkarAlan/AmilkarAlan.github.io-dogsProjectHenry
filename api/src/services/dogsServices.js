@@ -11,7 +11,7 @@ const dogStructure = (dog) => ({
     name: dog.name,
     life_span: dog.life_span,
     image_url: `https://cdn2.thedogapi.com/images/${dog.reference_image_id}.jpg`,
-    temperament: dog.temperament ?? dog.temperament
+    temperaments: dog.temperament ?? dog.temperament
 })
 const getAllBreeds = async () => {
     try {
@@ -32,32 +32,47 @@ const getAllBreeds = async () => {
 const getBreed = async ({ id, name }) => {
     let searchCond = {}
     if (id) {
-        searchCond = { id: { [ Op.iLike ]: "%" + id + "%" } };
+        searchCond = { id: { [ Op.iLike ]: id + "%" } };
     } else if (name) {
         searchCond = { name: { [ Op.iLike ]: "%" + name + "%" } };
     }
-    const searchDb = [ await Dog.findOne({ where: searchCond, include: Temperament }) ]
-    try {
-        let searchApi = []
-        if (name) {
+
+    if (name) {
+        try {
+            let searchApi = []
+            const searchDb = await Dog.findAll({ where: searchCond, include: Temperament })
             const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)
             data.map((d) => {
                 searchApi = [ ...searchApi, dogStructure(d) ]
             })
             searchApi = transformTemperament(searchApi)
-            return { searchApi: searchApi, searchDb: searchDb }
+            return { apiData: searchApi, dbData: searchDb ?? []}
+        } catch (error) {
+            if (error.response) {
+                console.error(error.response.status, error.response.data)
+                throw error
+            }
+            throw error.message
         }
-        const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/${id}`)
-        searchApi = dogStructure(data);
-        searchApi = transformTemperament(searchApi);
-        return { searchApi: searchApi, searchDb: searchDb }
-    } catch (error) {
-        if (error.response) {
-            console.error(error.response.status, error.response.data)
-            throw error
+    } else if (id) {
+        try {
+            if (isNaN(id)) {
+                const searchDb = await Dog.findOne({ where: searchCond, include: Temperament })
+                return searchDb
+            }
+            const { data } = await axios.get(`https://api.thedogapi.com/v1/breeds/${id}`)
+            searchApi = dogStructure(data);
+            searchApi = transformTemperament(searchApi);
+            return searchApi
+        } catch (error) {
+            if (error.response) {
+                console.error(error.response.status, error.response.data)
+                throw error
+            }
+            throw error.message
         }
-        throw error.message
     }
+    
 }
 
 const postDog = async (dog) => {
@@ -66,13 +81,13 @@ const postDog = async (dog) => {
         const dogsInDb = await Dog.findAll();
         const [ dogInDb, created ] = await Dog.findOrCreate({
             where: { name: dog.name },
-            defaults: { 
+            defaults: {
                 weight: dog.weight,
                 height: dog.height,
                 name: dog.name,
                 life_span: dog.life_span,
-                image_url: `hhttps://cdn2.thedogapi.com/images/${dog.reference_image_id}.jpg`,
-                id: "MyD" + "-" + (dogsInDb.length + 1) 
+                image_url: 'https://th.bing.com/th/id/OIG3.A9HC0qibI9ThT2Caiq.i?w=1024&h=1024&rs=1&pid=ImgDetMain',
+                id: "MyD" + "-" + (dogsInDb.length + 1)
             },
             include: [ {
                 model: Temperament,
