@@ -3,7 +3,7 @@ import style from './Create.module.css'
 
 export const Create = ({temperaments}) => {
   return (
-    <div>
+    <div className={style.create_main}>
       <FormCreation temperaments={temperaments}/>
     </div>
   )

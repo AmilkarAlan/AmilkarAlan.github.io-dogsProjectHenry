@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const useFilter = (dogs) => {
+const useFilter = (dogs, setCurrentPage) => {
     const [ alphaFilter, setAlphaFilter ] = useState('none');
     const [ tempFilter, setTempFilter ] = useState('all');
     const [ apiData, setApiData ] = useState([]);
@@ -32,6 +32,7 @@ const useFilter = (dogs) => {
         setFilteredDogs(newDogs);
 
     }, [ alphaFilter, tempFilter, dogsShow ])
+
     useEffect(() => {
         if (!dogs.length) {
             setFilteredDogs([]);
@@ -41,21 +42,25 @@ const useFilter = (dogs) => {
             setDbData(dogs[ 1 ]?.db);
         }
     }, [ dogs ]);
+
     useEffect(() => {
         setDogsShow(apiData.concat(dbData));
     }, [ apiData, dbData ])
 
     const showApiData = () => {
         setDogsShow(apiData);
+        setCurrentPage(1);
     };
 
     const showDbData = () => {
         setDogsShow(dbData);
+        setCurrentPage(1);
 
     };
 
     const showAllData = () => {
         setDogsShow(apiData.concat(dbData));
+        setCurrentPage(1);
     };
     return {
         filteredDogs,

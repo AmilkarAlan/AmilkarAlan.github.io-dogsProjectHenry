@@ -1,0 +1,39 @@
+.form_wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.form_temperament_wrapper {
+    width: fit-content;
+    height: 20px;
+}
+
+.form_temperament_wrapper>label {
+    background-color: antiquewhite;
+}
+
+.form_temperament_list_wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 8px;
+    margin: 8px;
+}
+
+.form_temperament_popup {
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    background-color: wheat;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    opacity: 0;
+    overflow-y: scroll;
+}
+
+.open {
+    opacity: 1;
+}

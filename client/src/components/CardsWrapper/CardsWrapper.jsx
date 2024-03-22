@@ -10,7 +10,7 @@ const CardsWrapper = ({ dogs, temperaments, loading }) => {
   const [ currentPage, setCurrentPage ] = useState(1);
   const [dogsToShow, setDogsToShow] = useState([])
  
-  const { filteredDogs, showAllData, showDbData, showApiData, setAlphaFilter, setTempFilter } = useFilter(dogs)
+  const { filteredDogs, showAllData, showDbData, showApiData, setAlphaFilter, setTempFilter } = useFilter(dogs,setCurrentPage)
 
 
   useEffect(() => {
