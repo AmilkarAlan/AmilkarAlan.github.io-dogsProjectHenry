@@ -1,4 +1,29 @@
 .create_main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     width: 100%;
+}
+
+.create_image_wrapper {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: all 4s ease-in-out;
+}
+
+.create_image_wrapper>img {
+    width: 150px;
+    height: 250px;
+    transform: translateY(25px) translateX(5px);
+}
+
+.open {
+    width: 100px;
+    height: 200px;
 }
