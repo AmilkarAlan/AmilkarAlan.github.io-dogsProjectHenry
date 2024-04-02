@@ -2,7 +2,7 @@ import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDogs, getTemperaments } from './redux/action';
 import { useEffect} from 'react';
-import { Home } from './routes/Home/Home';
+import { Layout } from './routes/Layout/Layout';
 import { Route, Routes } from 'react-router-dom';
 import { Detail } from './routes/Detail/Detail';
 import CardsWrapper from './components/CardsWrapper/CardsWrapper';
@@ -23,8 +23,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={ <Home dogs={ dogs } loading={loading}/> } >
-        <Route path='/' element={<CardsWrapper dogs={ dogs } loading={ loading } temperaments={temperaments}/>}/>
+      <Route path='/' element={ <Layout dogs={ dogs } loading={loading}/> } >
+        <Route path='home' element={<CardsWrapper dogs={ dogs } loading={ loading } temperaments={temperaments}/>}/>
         <Route path='detail/:id' element={<Detail/>}/>
         <Route path='create' element={<Create temperaments={temperaments}/>}/>
       </Route>

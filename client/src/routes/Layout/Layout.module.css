@@ -9,15 +9,30 @@
 .home_header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     gap: 24px;
     position: relative;
     grid-area: header;
 }
 
-.home_header a{
-    color: black;
-}
-.home_header a:hover{
+.home_header a:hover {
     color: #f89b29;
+}
+
+.link {
+    color: gray;
+}
+
+.active {
+    color: #f89b29;
+}
+
+.page_name {
+    justify-self: flex-start;
+}
+
+.home_header_nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
 }

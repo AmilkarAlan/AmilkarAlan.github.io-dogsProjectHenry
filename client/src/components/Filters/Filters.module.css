@@ -1,9 +1,22 @@
 .filter_wrapped{
     display: flex;
-    gap: 8px;
+    gap: 24px;
 }
 
-.filterContainer{
+.filter_container{
+    width: fit-content;
+    height: 30px;
     display: flex;
+    align-items: center;
+    border-radius: 12px;
+    background-color: grey;
     gap: 8px;
+    color: beige;
+    padding: 4px;
+}
+
+.filter_options_container{
+    border: none;
+    background-color: grey;
+    width: fit-content;
 }

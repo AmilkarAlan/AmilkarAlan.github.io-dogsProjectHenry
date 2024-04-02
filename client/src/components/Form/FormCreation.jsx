@@ -41,6 +41,7 @@ export const FormCreation = ({ temperaments }) => {
     // });
     const errors = useValidate(formInputs)
     setFormErrors(errors)
+
     // setFormInputs({
     //   name: '',
     //   min_weight: '',
@@ -88,7 +89,7 @@ export const FormCreation = ({ temperaments }) => {
         )
         : null }
 
-
+      { formErrors.system_type ? formErrors.system_type : null }
       <div className={ style.form_temperament_wrapper }>
         <label onClick={ handleOpenOptions }>
           Select a tag that describes the temperament of the breed

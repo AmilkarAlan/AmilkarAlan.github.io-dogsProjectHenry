@@ -9,7 +9,7 @@ const Card = ({ dog }) => {
             <div className={ style.card__content }>
                 <p className={ style.card__title }>{ dog.name }
                 </p>
-                <Link className={style.card__link} to={`detail/${dog.id}`}>Saber mas</Link>
+                <Link className={ style.card__link } to={`/detail/${dog.id}`}>Saber mas</Link>
             </div>
         </div>
     )

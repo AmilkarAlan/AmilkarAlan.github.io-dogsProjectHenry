@@ -33,8 +33,6 @@ export const getSearchDogs = (input) => {
         );
         try {
             const { data:{data} } = await axios.get(`http://localhost:3001/dogs/search/?name=${input}`);
-            console.log(data.dbData);
-            
             dispatch(
                 {
                     type: actionTypes.SEARCH_DOGS_FULL,

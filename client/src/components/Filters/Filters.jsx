@@ -14,7 +14,17 @@ const Filters = ({ setAlphaFilter, setTempFilter, setCurrentPage, temperaments, 
         setTempFilter(newValue);
         setCurrentPage(1)
     };
-
+    const handleFromFilterChange = (e) => {
+        if (e.target.value === "apiData") {
+            showApiData();
+            return
+        } else if (e.target.value === "dbData") {
+            showDbData();
+            return
+        }
+        showAllData();
+        return
+    }
     const alphaFilter = [
         { title: "A-Z", value: "asc" },
         { title: "Z-A", value: "desc" },
@@ -28,45 +38,38 @@ const Filters = ({ setAlphaFilter, setTempFilter, setCurrentPage, temperaments, 
 
         <div className={ style.filter_wrapped }>
 
-            <div className={ style.filterContainer }>
+            <div className={ style.filter_container }>
                 <p>Order: </p>
-                <div className={ style.buttonsContainer }>
+                <select className={ style.filter_options_container } onChange={ (e) => handleAlphaFilterChange(e) }>
                     { alphaFilter.map((alpha, index) => {
                         return (
-                            <div className={ style.buttonsPad } key={ index }>
-                                <button key={ index } value={ alpha.value } onClick={ handleAlphaFilterChange }>
+                            <option key={ index } value={ alpha.value }>
 
-                                    { alpha.title }
+                                { alpha.title }
 
-                                </button>
-                            </div>
+                            </option>
                         )
                     }) }
-                </div>
+                </select>
+
             </div>
-            <div className={ style.filterContainer }>
-            <p>From: </p>
-                <div className={ style.buttonsContainer }>
-                    <div className={ style.buttonsPad } >
-                        <button value="all" onClick={ showAllData }>
-                            All
-                        </button>
-                        <button value="apiData" onClick={ showApiData }>
-                            Api
-                        </button>
-                        <button value="dbData" onClick={ showDbData }>
-                            db
-                        </button>
-                    </div>
-
-
-
-                </div>
+            <div className={ style.filter_container }>
+                <p>From: </p>
+                <select className={ style.filter_options_container } onChange={ (e) => handleFromFilterChange(e) }>
+                    <option value="all" >
+                        All
+                    </option>
+                    <option value="apiData" >
+                        Api
+                    </option>
+                    <option value="dbData">
+                        db
+                    </option>
+                </select>
             </div>
-            <div className={ style.filterContainer + " " + style.scroll }>
+            <div className={ style.filter_container }>
                 <label>Choose temperament:</label>
-                <select className={ style.buttonsContainer } onChange={ (e) => handleTempsFilterChange(e) }>
-                    {/* <option value="none">None</option> */ }
+                <select className={ style.filter_options_container } onChange={ (e) => handleTempsFilterChange(e) }>
                     { temperamentFilter.map((temp, index) => {
                         return (
 
