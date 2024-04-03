@@ -21,6 +21,7 @@ export const FormCreation = ({ temperaments }) => {
   });
   const [ formErrors, setFormErrors ] = useState({});
   const [ tempOpen, setTempOpen ] = useState(false);
+  const [ created, setCreated ] = useState(false);
 
   const handleOpenOptions = (e) => {
     setTempOpen(!tempOpen);
@@ -49,24 +50,28 @@ export const FormCreation = ({ temperaments }) => {
     if (Object.keys(formErrors).length === 0) {
       const newBreed = useEstructure(formInputs)
 
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-      checkboxes.forEach(checkbox => {
-        checkbox.checked = false;
-      });
+      setCreated(true)
 
-      setFormInputs({
-        name: '',
-        system_type: '',
-        min_weight: '',
-        max_weight: '',
-        min_height: '',
-        max_height: '',
-        min_years: '',
-        max_years: '',
-        temperaments: [],
-      });
-      dispatch(postBreed(newBreed))
-      navigate("/home")
+      setTimeout(() => {
+        dispatch(postBreed(newBreed))
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+          checkbox.checked = false;
+        });
+
+        setFormInputs({
+          name: '',
+          system_type: '',
+          min_weight: '',
+          max_weight: '',
+          min_height: '',
+          max_height: '',
+          min_years: '',
+          max_years: '',
+          temperaments: [],
+        });
+        navigate("/home")
+      }, 4000);
     }
   }
 
@@ -97,7 +102,7 @@ export const FormCreation = ({ temperaments }) => {
             <label>Max. age </label>
             { formErrors.max_years ? formErrors.max_years : null }
           </div>
-            { formErrors.years ? formErrors.years : null }
+          { formErrors.years ? formErrors.years : null }
         </div>
         <div className={ style.form_inputs_measurement }>
           <label>Select a measurement system</label>
@@ -114,33 +119,33 @@ export const FormCreation = ({ temperaments }) => {
                 <input className={ style.form_input_input } type="number" name='min_weight' value={ formInputs.min_weight } onChange={ handleInput } />
                 <span className={ style.form_input_highlight }></span>
                 <span className={ style.form_input_bar }></span>
-                <label>Min. weight ({formInputs.system_type === "metric" ? "kg" : "lib"})</label>
+                <label>Min. weight ({ formInputs.system_type === "metric" ? "kg" : "lib" })</label>
                 { formErrors.min_weight ? formErrors.min_weight : null }
               </div>
               <div className={ style.form_input_group }>
                 <input className={ style.form_input_input } type="number" name='max_weight' value={ formInputs.max_weight } onChange={ handleInput } />
                 <span className={ style.form_input_highlight }></span>
                 <span className={ style.form_input_bar }></span>
-                <label>Max. weight ({formInputs.system_type === "metric" ? "kg" : "lib"})</label>
+                <label>Max. weight ({ formInputs.system_type === "metric" ? "kg" : "lib" })</label>
                 { formErrors.max_weight ? formErrors.max_weight : null }
               </div>
-                { formErrors.weight ? formErrors.weight : null }
+              { formErrors.weight ? formErrors.weight : null }
               <label >Height</label>
               <div className={ style.form_input_group }>
                 <input className={ style.form_input_input } type="number" name='min_height' value={ formInputs.min_height } onChange={ handleInput } />
                 <span className={ style.form_input_highlight }></span>
                 <span className={ style.form_input_bar }></span>
-                <label>Min. height ({formInputs.system_type === "metric" ? "cm" : "in"})</label>
+                <label>Min. height ({ formInputs.system_type === "metric" ? "cm" : "in" })</label>
                 { formErrors.min_height ? formErrors.min_height : null }
               </div>
               <div className={ style.form_input_group }>
                 <input className={ style.form_input_input } type="number" name='max_height' value={ formInputs.max_height } onChange={ handleInput } />
                 <span className={ style.form_input_highlight }></span>
                 <span className={ style.form_input_bar }></span>
-                <label>Max. height ({formInputs.system_type === "metric" ? "cm" : "in"})</label>
+                <label>Max. height ({ formInputs.system_type === "metric" ? "cm" : "in" })</label>
                 { formErrors.max_height ? formErrors.max_height : null }
               </div>
-                { formErrors.height ? formErrors.height : null }
+              { formErrors.height ? formErrors.height : null }
             </div>
             :
             null
@@ -170,6 +175,12 @@ export const FormCreation = ({ temperaments }) => {
         </div>
       </div>
       <button type='submit'>submit</button>
+      <div className={ created ? `${style.form_confirm_popup} ${style.confirm_active}` : style.form_confirm_popup }>
+        <div className={ style.form_confirm_popup_wrapper }>
+          <img src="https://th.bing.com/th/id/OIG3.qGB_V63E.SksgZqHeIaI?pid=ImgGn" alt="dog" />
+          <h3>The breed was successfully created!</h3>
+        </div>
+      </div>
     </form >
   )
 }

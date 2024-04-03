@@ -8,6 +8,7 @@ export const Layout = () => {
   const [ currentPageName, setCurrentPageName ] = useState("")
   const { pathname } = useLocation();
   
+
   useEffect(() => {
     const formattedPathname = pathname.split('/')[1];
     const capitalizedPathname = formattedPathname.charAt(0).toUpperCase() + formattedPathname.slice(1);

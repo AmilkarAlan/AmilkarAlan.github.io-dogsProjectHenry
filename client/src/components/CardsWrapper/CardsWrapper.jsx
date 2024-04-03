@@ -4,21 +4,26 @@ import Pagination from '../Pagination/Pagination';
 import Card from '../Card/Card';
 import Filters from '../Filters/Filters';
 import useFilter from '../../hooks/useFilter';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDogs } from '../../redux/action';
+
 
 const ITEMS_PER_PAGE = 8
-const CardsWrapper = ({ dogs, temperaments, loading }) => {
+const CardsWrapper = () => {
   const [ currentPage, setCurrentPage ] = useState(1);
   const [ dogsToShow, setDogsToShow ] = useState([])
 
+  const dispatch = useDispatch();
+  const dogs = useSelector(state => state.dogs);
+  const temperaments = useSelector(state => state.temperaments);
+  const loading = useSelector(state => state.loading)
+
   const { filteredDogs, showAllData, showDbData, showApiData, setAlphaFilter, setTempFilter } = useFilter(dogs, setCurrentPage)
 
-  // const shuffleArray = (arr) => {
-  //   for (let i = arr.length - 1; i > 0; i--) {
-  //     const j = Math.floor(Math.random() * (i + 1));
-  //     [ arr[ i ], arr[ j ] ] = [ arr[ j ], arr[ i ] ]; // Intercambia los elementos
-  //   }
+  useEffect(() => {
+    dispatch(getDogs())
+  }, [ dispatch ]);
 
-  // }
   useEffect(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const items = filteredDogs.slice(startIndex, startIndex + ITEMS_PER_PAGE);
