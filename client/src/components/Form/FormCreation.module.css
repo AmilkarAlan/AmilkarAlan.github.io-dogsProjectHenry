@@ -1,41 +1,148 @@
 .form_wrapper {
     width: 60%;
     height: 50%;
-    display:flex;
-    flex-direction: column;
     position: relative;
 }
 
-.form_temperament_wrapper {
-    width: fit-content;
-    height: 20px;
+.form_wrapper p {
+    color: darkred;
 }
 
-.form_temperament_wrapper>label {
-    background-color: antiquewhite;
+.form_inputs_container {
+    display: flex;
+    gap: 24px;
+    position: relative;
 }
 
-.form_temperament_list_wrapper {
+.form_inputs_bioInfo label,
+.form_temperaments_container label,
+.form_inputs_container label {
+    color: #5a5a5a;
+    font-size: 18px;
+    font-weight: normal;
+    position: relative;
+}
+
+.form_input_bioInfo {
+    display: flex;
+    flex-direction: column;
+}
+.form_inputs_container select {
+    height: fit-content;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid #515151;
+    color: #5a5a5a;
+}
+.form_temperaments_wrapper {
+    width: 400px;
+    height: 300px;
+    overflow-y: scroll;
+
+}
+
+.form_temperaments_list_wrapper {
     display: grid;
     grid-template-columns: repeat(3, auto);
     gap: 8px;
     margin: 8px;
 }
 
-.form_temperament_popup {
-    width: 400px;
-    height: 300px;
-    position: absolute;
-    background-color: wheat;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    opacity: 0;
-    overflow-y: scroll;
+.form_temperaments_list_item {}
+
+/* input config */
+
+.form_input_group {
+    position: relative;
+    margin-top: 20px;
 }
 
-.open {
-    opacity: 1;
+.form_input_input {
+    font-size: 16px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid #515151;
+    background: transparent;
+    color: black;
+}
+
+.form_input_input:focus {
+    outline: none;
+}
+
+.form_input_group label {
+    color: #999;
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: 0.2s ease all;
+}
+
+.form_input_input:focus~label,
+.form_input_input:valid~label {
+    top: -10px;
+    font-size: 14px;
+    color: #5264AE;
+}
+
+.form_input_bar {
+    position: relative;
+    display: block;
+    width: 200px;
+}
+
+.form_input_bar:before,
+.form_input_bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #5264AE;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+.form_input_bar:before {
+    left: 50%;
+}
+
+.form_input_bar:after {
+    right: 50%;
+}
+
+.form_input_input:focus~.form_input_bar:before,
+.form_input_input:focus~.form_input_bar:after {
+    width: 50%;
+}
+
+.form_input_highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.form_input_input:focus~.form_input_highlight {
+    animation: inputHighlighter 0.3s ease;
+}
+
+@keyframes inputHighlighter {
+    from {
+        background: #5264AE;
+    }
+
+    to {
+        width: 0;
+        background: transparent;
+    }
 }

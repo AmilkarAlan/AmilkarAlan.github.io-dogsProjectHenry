@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from './FormCreation.module.css'
-import { useValidate } from '../../hooks/FormHooks';
+import { useEstructure, useValidate } from '../../hooks/FormHooks';
+import { useDispatch } from 'react-redux'
+import { postBreed } from '../../redux/action';
+import { useNavigate } from 'react-router-dom';
 
 export const FormCreation = ({ temperaments }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [ formInputs, setFormInputs ] = useState({
     name: '',
     system_type: '',
@@ -29,90 +34,142 @@ export const FormCreation = ({ temperaments }) => {
     setFormInputs(prevState => ({ ...prevState, temperaments: updatedTemperaments }));
   };
 
+  useEffect(() => {
+    const errors = useValidate(formInputs)
+    setFormErrors(errors)
+  }, [ formInputs ]);
+
   const handleInput = (e) => {
     const { value, name, } = e.target;
     setFormInputs(prevState => ({ ...prevState, [ name ]: value }))
+
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    // checkboxes.forEach(checkbox => {
-    //   checkbox.checked = false;
-    // });
-    const errors = useValidate(formInputs)
-    setFormErrors(errors)
+    if (Object.keys(formErrors).length === 0) {
+      const newBreed = useEstructure(formInputs)
 
-    // setFormInputs({
-    //   name: '',
-    //   min_weight: '',
-    //   max_weight: '',
-    //   min_height: '',
-    //   max_height: '',
-    //   min_years: '',
-    //   max_years: '',
-    //   temperaments: [],
-    // })
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+      });
+
+      setFormInputs({
+        name: '',
+        system_type: '',
+        min_weight: '',
+        max_weight: '',
+        min_height: '',
+        max_height: '',
+        min_years: '',
+        max_years: '',
+        temperaments: [],
+      });
+      dispatch(postBreed(newBreed))
+      navigate("/home")
+    }
   }
+
   return (
     <form className={ style.form_wrapper } onSubmit={ handleSubmit }>
-      <label htmlFor='name'>Breed Name: </label>
-      <input name="name" type="text" value={ formInputs.name } onChange={ handleInput } />
-      { formErrors.name ? formErrors.name : null }
-      <label htmlFor="years">What is the life expectancy of this breed?</label>
-      <input name='min_years' type="number" value={ formInputs.min_years } onChange={ handleInput } /> <span>to</span>
-      <input name='max_years' type="number" value={ formInputs.max_years } onChange={ handleInput } />
-      { formErrors.years ? formErrors.years : null }
-      <label htmlFor="system_type">
-        Which measurement system do you want to use?
-      </label>
-      <select name="system_type" onChange={ handleInput }>
-        <option value=""></option>
-        <option value="imperial">imperial (in, lb)</option>
-        <option value="metric">metric (cm, kg)</option>
-      </select>
-      { formInputs.system_type.length ?
-        (
-          <>
-            <label htmlFor="weight">
-              What weights does the breed fall into?
-            </label>
-            <input type="number" name='min_weight' value={ formInputs.min_weight } onChange={ handleInput } /> <span>to</span>
-            <input type="number" name='max_weight' value={ formInputs.max_weight } onChange={ handleInput } />
-            { formErrors.weight ? formErrors.weight : null }
-            <label htmlFor="height">
-              What is the height range of the breed?
-            </label>
-            <input type="number" name='min_height' value={ formInputs.min_height } onChange={ handleInput } /> <span>to</span>
-            <input type="number" name='max_height' value={ formInputs.max_height } onChange={ handleInput } />
-            { formErrors.height ? formErrors.height : null }
-          </>
-        )
-        : null }
-
-      { formErrors.system_type ? formErrors.system_type : null }
-      <div className={ style.form_temperament_wrapper }>
-        <label onClick={ handleOpenOptions }>
-          Select a tag that describes the temperament of the breed
-        </label>
-        <div className={ tempOpen ? `${style.form_temperament_popup} ${style.open}` : style.form_temperament_popup }>
-          <ul className={ style.form_temperament_list_wrapper }>
-            { temperaments.map(temp => (
-              <li key={ temp.id } className={ style.form_temperament_list }>
-                <label>
-                  <input
-                    type="checkbox"
-                    name='temperaments'
-                    value={ temp.name }
-                    onChange={ handleCheckboxChange }
-                  />
-                  { temp.name }
-                </label>
-              </li>
-            )) }
-          </ul>
+      <div className={ style.form_inputs_container }>
+        <div className={ style.form_inputs_bioInfo }>
+          <div className={ style.form_input_group }>
+            <input className={ style.form_input_input } name="name" type="text" value={ formInputs.name } onChange={ handleInput } />
+            <span className={ style.form_input_highlight }></span>
+            <span className={ style.form_input_bar }></span>
+            <label>Breed name</label>
+            { formErrors.name ? formErrors.name : null }
+          </div>
+          <label >Life expectancy</label>
+          <div className={ style.form_input_group }>
+            <input className={ style.form_input_input }
+              name='min_years' type="number" value={ formInputs.min_years } onChange={ handleInput } />
+            <span className={ style.form_input_highlight }></span>
+            <span className={ style.form_input_bar }></span>
+            <label>Min. age</label>
+            { formErrors.min_years ? formErrors.min_years : null }
+          </div>
+          <div className={ style.form_input_group }>
+            <input className={ style.form_input_input } name='max_years' type="number" value={ formInputs.max_years } onChange={ handleInput } />
+            <span className={ style.form_input_highlight }></span>
+            <span className={ style.form_input_bar }></span>
+            <label>Max. age </label>
+            { formErrors.max_years ? formErrors.max_years : null }
+          </div>
+            { formErrors.years ? formErrors.years : null }
+        </div>
+        <div className={ style.form_inputs_measurement }>
+          <label>Select a measurement system</label>
+          <select name="system_type" onChange={ handleInput } value={ formInputs.system_type }>
+            <option value=""></option>
+            <option value="imperial">imperial (in, lb)</option>
+            <option value="metric">metric (cm, kg)</option>
+          </select>
+          { formInputs.system_type?.length
+            ?
+            <div className={ style.form_inputs_bioInfo }>
+              <label >Weight</label>
+              <div className={ style.form_input_group }>
+                <input className={ style.form_input_input } type="number" name='min_weight' value={ formInputs.min_weight } onChange={ handleInput } />
+                <span className={ style.form_input_highlight }></span>
+                <span className={ style.form_input_bar }></span>
+                <label>Min. weight ({formInputs.system_type === "metric" ? "kg" : "lib"})</label>
+                { formErrors.min_weight ? formErrors.min_weight : null }
+              </div>
+              <div className={ style.form_input_group }>
+                <input className={ style.form_input_input } type="number" name='max_weight' value={ formInputs.max_weight } onChange={ handleInput } />
+                <span className={ style.form_input_highlight }></span>
+                <span className={ style.form_input_bar }></span>
+                <label>Max. weight ({formInputs.system_type === "metric" ? "kg" : "lib"})</label>
+                { formErrors.max_weight ? formErrors.max_weight : null }
+              </div>
+                { formErrors.weight ? formErrors.weight : null }
+              <label >Height</label>
+              <div className={ style.form_input_group }>
+                <input className={ style.form_input_input } type="number" name='min_height' value={ formInputs.min_height } onChange={ handleInput } />
+                <span className={ style.form_input_highlight }></span>
+                <span className={ style.form_input_bar }></span>
+                <label>Min. height ({formInputs.system_type === "metric" ? "cm" : "in"})</label>
+                { formErrors.min_height ? formErrors.min_height : null }
+              </div>
+              <div className={ style.form_input_group }>
+                <input className={ style.form_input_input } type="number" name='max_height' value={ formInputs.max_height } onChange={ handleInput } />
+                <span className={ style.form_input_highlight }></span>
+                <span className={ style.form_input_bar }></span>
+                <label>Max. height ({formInputs.system_type === "metric" ? "cm" : "in"})</label>
+                { formErrors.max_height ? formErrors.max_height : null }
+              </div>
+                { formErrors.height ? formErrors.height : null }
+            </div>
+            :
+            null
+          }
+          { formErrors.system_type ? formErrors.system_type : null }
+        </div>
+        <div className={ style.form_temperaments_container }>
+          <label >Breed temperaments</label>
+          <div className={ style.form_temperaments_wrapper }>
+            <ul className={ style.form_temperaments_list_wrapper }>
+              { temperaments.map(temp => (
+                <li className={ style.form_temperaments_list_item }>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name='temperaments'
+                      value={ temp.name }
+                      onChange={ handleCheckboxChange }
+                    />
+                    { temp.name }
+                  </label>
+                </li>
+              )) }
+            </ul>
+          </div>
+          { formErrors.temperaments ? formErrors.temperaments : null }
         </div>
       </div>
       <button type='submit'>submit</button>
-    </form>
+    </form >
   )
 }

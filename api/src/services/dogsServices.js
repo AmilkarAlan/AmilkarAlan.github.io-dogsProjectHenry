@@ -96,7 +96,7 @@ const postDog = async (dog) => {
                 }
             } ]
         })
-        for (const tempInfo of dog.temperament) {
+        for (const tempInfo of dog.temperaments) {
             let temp = await Temperament.findOne({ where: { name: tempInfo.name } })
             await dogInDb.addTemperament(temp)
         }

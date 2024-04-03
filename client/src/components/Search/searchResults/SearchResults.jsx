@@ -16,10 +16,13 @@ export const SearchResults = ({ results, setResults }) => {
             setDbData(results[ 1 ].db);
 
         }
-    }, [ results ]);
-    useEffect(() => {
-        setToShowData(apiData.concat(dbData));
-    }, [ apiData, dbData ])
+        return () => {
+
+            setToShowData(apiData.concat(dbData));
+        }
+    }, [ results, apiData, dbData ]);
+    // useEffect(() => {
+    // }, [ toShowData ])
 
     const showApiData = () => {
         setToShowData(apiData);
@@ -42,13 +45,15 @@ export const SearchResults = ({ results, setResults }) => {
                     <button onClick={ showDbData }>db</button>
                     <button onClick={ showAllData }>todos</button>
                 </div>
-                { toShowData.length ? toShowData.map(res => {
-                    return (
-                        <Link onClick={ () => setResults("") } to={ `detail/${res.id}` } key={ res.id } className={ style.results_links }>
-                            <img src={ res.image_url } alt={ res.name } />
-                            <p>{ res.name }</p>
-                        </Link>)
-                }) : (<p>No hay nada aqui</p>) }
+                <div className={ style.results_results_wrapper }>
+                    { toShowData.length ? toShowData.map(res => {
+                        return (
+                            <Link onClick={ () => setResults("") } to={ `detail/${res.id}` } key={ res.id } className={ style.results_links }>
+                                <img src={ res.image_url } alt={ res.name } />
+                                <p>{ res.name }</p>
+                            </Link>)
+                    }) : (<p>Buscando...</p>) }
+                </div>
             </div>
         </div>
     )

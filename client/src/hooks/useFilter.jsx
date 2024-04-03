@@ -5,7 +5,7 @@ const useFilter = (dogs, setCurrentPage) => {
     const [ tempFilter, setTempFilter ] = useState('all');
     const [ apiData, setApiData ] = useState([]);
     const [ dbData, setDbData ] = useState([]);
-    const[dogsShow, setDogsShow] = useState([])
+    const [ dogsShow, setDogsShow ] = useState([])
     const [ filteredDogs, setFilteredDogs ] = useState([]);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const useFilter = (dogs, setCurrentPage) => {
 
         const filterTemps = (dogs) => {
             if (tempFilter === "all") return dogs;
-            return dogs.filter((item) => item.temperaments?.some((temp)=>temp.name === tempFilter))
+            return dogs.filter((item) => item.temperaments?.some((temp) => temp.name === tempFilter))
         }
 
 
@@ -28,6 +28,8 @@ const useFilter = (dogs, setCurrentPage) => {
             newDogs.sort(compareName);
         } else if (alphaFilter === "desc") {
             newDogs.sort(compareName).reverse();
+        } else if (alphaFilter === "none") {
+            newDogs
         }
         setFilteredDogs(newDogs);
 
@@ -38,7 +40,7 @@ const useFilter = (dogs, setCurrentPage) => {
             setFilteredDogs([]);
         } else {
             setApiData(dogs[ 0 ]?.api);
-            if (dogs[ 1 ]?.db === null) return setDbData([{status:"No hay nada aqui"}])
+            if (dogs[ 1 ]?.db === null) return setDbData([ { status: "No hay nada aqui" } ])
             setDbData(dogs[ 1 ]?.db);
         }
     }, [ dogs ]);

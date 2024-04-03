@@ -7,9 +7,9 @@ export const Create = ({temperaments}) => {
 
   return (
     <div className={style.create_main}>
-      <div className={open ? `${style.create_image_wrapper} ${style.open}` : style.create_image_wrapper} onClick={()=>setOpen(!open)}>
+      {/* <div className={open ? `${style.create_image_wrapper} ${style.open}` : style.create_image_wrapper} onClick={()=>setOpen(!open)}>
         <img src="https://th.bing.com/th/id/OIG3.qGB_V63E.SksgZqHeIaI?pid=ImgGn" alt="" />
-      </div>
+      </div> */}
       <FormCreation temperaments={temperaments}/>
     </div>
   )

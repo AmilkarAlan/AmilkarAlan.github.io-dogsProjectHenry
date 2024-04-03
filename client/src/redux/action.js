@@ -90,3 +90,27 @@ export const getTemperaments = () => {
         }
     }
 }
+
+export const postBreed = (newBreed) => {
+    return async (dispatch) => {
+        dispatch(
+            {
+                type: actionTypes.POST_BREED_START,
+            }
+        );
+        try {
+            await axios.post("http://localhost:3001/dogs/", newBreed);
+            dispatch(
+                {
+                    type: actionTypes.POST_BREED_FULL,
+                    payload: true
+                }
+            )
+        } catch (error) {
+            dispatch({
+                type: actionTypes.POST_BREED_ERROR,
+                error: error.message
+            });
+        }
+    }
+}

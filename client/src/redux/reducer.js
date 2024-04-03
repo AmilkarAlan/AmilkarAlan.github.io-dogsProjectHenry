@@ -56,6 +56,23 @@ const reducer = (state = initialState, action) => {
                 searching: false,
                 error: action.error
             }
+        case actionsType.POST_BREED_START:
+            return {
+                ...state,
+                loading: true,
+            }
+        case actionsType.POST_BREED_FULL:
+            return {
+                ...state,
+                loading: false,
+                created: action.payload
+            }
+        case actionsType.POST_BREED_ERROR:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            }
         case actionsType.GET_ALLTEMPS:
             return {
                 ...state,

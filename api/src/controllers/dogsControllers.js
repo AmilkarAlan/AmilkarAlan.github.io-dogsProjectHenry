@@ -28,12 +28,11 @@ const getOneBreed = async (req, res) => {
     }
 }
 
-const postNewDog =async (req, res) => {
+const postNewDog = async (req, res) => {
     const dog = req.body
     try {
-        const newDog = await postDog(dog)
-        console.log(newDog);
-        res.status(204).send({ status: "Ok", data: newDog })
+        await postDog(dog)
+        res.status(204).send({ status: "Ok" })
     } catch (error) {
         if (error.response) {
             return res.status(error.response.status).send({ status: error.response.status, error: error.response.statusText })

@@ -9,8 +9,8 @@ router
     .get("/search/", getOneBreed)
     .get("/search/:id", getOneBreed)
     .get("/temperaments", getTemperaments)
-    .post("/",postNewDog)
-    .post("/temperaments/create", postNewTemp)
+    .post("/", postNewDog)
+    
 
 
 module.exports = router;

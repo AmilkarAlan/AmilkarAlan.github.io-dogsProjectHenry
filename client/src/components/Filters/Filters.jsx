@@ -26,6 +26,7 @@ const Filters = ({ setAlphaFilter, setTempFilter, setCurrentPage, temperaments, 
         return
     }
     const alphaFilter = [
+        { title: "None", value: "none" },
         { title: "A-Z", value: "asc" },
         { title: "Z-A", value: "desc" },
     ]
@@ -63,7 +64,7 @@ const Filters = ({ setAlphaFilter, setTempFilter, setCurrentPage, temperaments, 
                         Api
                     </option>
                     <option value="dbData">
-                        db
+                        Db
                     </option>
                 </select>
             </div>
